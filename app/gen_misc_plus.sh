@@ -1,6 +1,16 @@
 #!/bin/bash -xe
 
-make APP=$1
+appnum=$1
+case ${appnum} in
+1|2)
+  ;;
+*)
+  echo ERROR: app number must be 1 or 2 1>&2
+  exit 1
+  ;;
+esac
+
+make APP=${appnum}
 
 rm -f ../bin/upgrade/user$1.bin
 
@@ -15,7 +25,8 @@ xt-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.ir
 
 ../../../../../tools/gen_flashbin.py eagle.app.v6.flash.bin eagle.app.v6.irom0text.bin
 
-cp eagle.app.flash.bin user$1.bin
-cp user$1.bin ../../../../../bin/upgrade/
+cp eagle.app.flash.bin user${appnum}.bin
+mkdir -p ../../../../../bin/upgrade/
+cp user${appnum}.bin ../../../../../bin/upgrade/
 
 cd ../../../../../
