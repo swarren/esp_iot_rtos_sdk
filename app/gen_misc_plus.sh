@@ -28,5 +28,3 @@ xt-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.ir
 cp eagle.app.flash.bin user${appnum}.bin
 mkdir -p ../../../../../bin/upgrade/
 cp user${appnum}.bin ../../../../../bin/upgrade/
-
-cd ../../../../../

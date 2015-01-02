@@ -18,5 +18,3 @@ xt-objcopy --only-section .irom0.text -O binary eagle.app.v6.out eagle.app.v6.ir
 
 cp eagle.app.v6.irom0text.bin ../../../../../bin/
 cp eagle.app.v6.flash.bin ../../../../../bin/
-
-cd ../../../../../
