@@ -15,7 +15,9 @@ More details in "Wiki" !
    
 Compile
 
-using command： ./gen_misc.sh
+using command:
+  cd app
+  ./gen_misc.sh
    
 
 Download
