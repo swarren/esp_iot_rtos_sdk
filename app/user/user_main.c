@@ -35,6 +35,10 @@ void task2(void *pvParameters)
         struct sockaddr_in local_ip;
         struct sockaddr_in remote_ip;
 
+uint8_t japState;
+japState = wifi_station_get_connect_status();
+printf("japState:%d\n", (int)japState);
+
         sta_socket = socket(PF_INET, SOCK_STREAM, 0);
 
         if (-1 == sta_socket) {
@@ -152,13 +156,18 @@ void task3(void *pvParameters)
 void ICACHE_FLASH_ATTR
 user_init(void)
 {
+    vTaskDelay(1000 / portTICK_RATE_MS);
+    uart_div_modify(0, UART_CLK_FREQ / 115200);
+    uart_div_modify(1, UART_CLK_FREQ / 115200);
+
+    vTaskDelay(1000 / portTICK_RATE_MS);
     printf("SDK version:%d.%d.%d\n",
     		SDK_VERSION_MAJOR,
     		SDK_VERSION_MINOR,
     		SDK_VERSION_REVISION);
 
     /* need to set opmode before you set config */
-    wifi_set_opmode(STATIONAP_MODE);
+    wifi_set_opmode(STATION_MODE);
 
     {
         struct station_config *config = (struct station_config *)zalloc(sizeof(struct station_config));
@@ -169,7 +178,17 @@ user_init(void)
          * otherwise it will be failed. */
         wifi_station_set_config(config);
         free(config);
+        wifi_station_disconnect();
+        wifi_station_dhcpc_stop();
+        bool b = wifi_station_connect();
+        printf("connect: %d\n", (int)b);
+        b = wifi_station_set_auto_connect(1);
+        printf("set auto: %d\n", (int)b);
+        int ret = wifi_station_dhcpc_start();
+        printf("dhcpc_start: %d\n", ret);
     }
+
+#if 0
     
     {
         struct ip_info ipinfo;
@@ -198,8 +217,9 @@ user_init(void)
     }
     
     udhcpd_start();
+#endif
 
     xTaskCreate(task2, "tsk2", 256, NULL, 2, NULL);
-    xTaskCreate(task3, "tsk3", 256, NULL, 2, NULL);
+    //xTaskCreate(task3, "tsk3", 256, NULL, 2, NULL);
 }
 
