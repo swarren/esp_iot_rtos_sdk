@@ -1,6 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash -xe
+
 make
-if [ $? == 0 ];then
+
 rm -f ../bin/eagle.app.v6.flash.bin ../bin/eagle.app.v6.irom0text.bin ../bin/eagle.app.v6.dump ../bin/eagle.app.v6.S
 
 cd .output/eagle/debug/image
@@ -19,7 +20,3 @@ cp eagle.app.v6.irom0text.bin ../../../../../bin/
 cp eagle.app.v6.flash.bin ../../../../../bin/
 
 cd ../../../../../
-
-else
-echo "make error"
-fi

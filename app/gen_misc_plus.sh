@@ -1,6 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash -xe
+
 make APP=$1
-if [ $? == 0 ];then
+
 rm -f ../bin/upgrade/user$1.bin
 
 cd .output/eagle/debug/image/
@@ -18,7 +19,3 @@ cp eagle.app.flash.bin user$1.bin
 cp user$1.bin ../../../../../bin/upgrade/
 
 cd ../../../../../
-
-else
-echo "make error"
-fi
