@@ -1,7 +1,7 @@
 #!/bin/bash -x
 make APP=$1
 if [ $? == 0 ];then
-rm ../bin/upgrade/user$1.bin
+rm -f ../bin/upgrade/user$1.bin
 
 cd .output/eagle/debug/image/
 
